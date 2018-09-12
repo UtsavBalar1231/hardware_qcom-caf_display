@@ -32,6 +32,7 @@
 
 #include <string>
 #include <vector>
+#include <mutex>
 
 #include "cpuhint.h"
 #include "hwc_display.h"
@@ -55,7 +56,7 @@ class HWCDisplayBuiltIn : public HWCDisplay {
                     HWCDisplay **hwc_display);
   static void Destroy(HWCDisplay *hwc_display);
   virtual int Init();
-  virtual int Deinit();
+  virtual int Deinit() override;
   virtual HWC2::Error Validate(uint32_t *out_num_types, uint32_t *out_num_requests);
   virtual HWC2::Error Present(int32_t *out_retire_fence);
   virtual HWC2::Error CommitLayerStack();
@@ -99,6 +100,16 @@ class HWCDisplayBuiltIn : public HWCDisplay {
   }
   virtual HWC2::Error UpdatePowerMode(HWC2::PowerMode mode);
   virtual HWC2::Error PostCommitLayerStack(int32_t *out_retire_fence);
+
+  virtual HWC2::Error SetDisplayedContentSamplingEnabledVndService(bool enabled);
+  virtual HWC2::Error SetDisplayedContentSamplingEnabled(int32_t enabled, uint8_t component_mask, uint64_t max_frames) override;
+  virtual HWC2::Error GetDisplayedContentSamplingAttributes(int32_t* format, int32_t* dataspace,
+                                                            uint8_t* supported_components) override;
+  virtual HWC2::Error GetDisplayedContentSample(uint64_t max_frames,
+                                                uint64_t timestamp, uint64_t* numFrames,
+                                                int32_t samples_size[NUM_HISTOGRAM_COLOR_COMPONENTS],
+                                                uint64_t* samples[NUM_HISTOGRAM_COLOR_COMPONENTS]) override;
+  std::string Dump() override;
 
  private:
   HWCDisplayBuiltIn(CoreInterface *core_intf, BufferAllocator *buffer_allocator,
@@ -154,6 +165,13 @@ class HWCDisplayBuiltIn : public HWCDisplay {
   // PMIC interface to notify secure display start/end
   PMICInterface *pmic_intf_ = nullptr;
   bool pmic_notification_pending_ = false;
+
+  // Members for Color sampling feature
+  histogram::HistogramCollector histogram;
+  std::mutex sampling_mutex;
+  bool api_sampling_vote = false;
+  bool vndservice_sampling_vote = false;
+
 };
 
 }  // namespace sdm
