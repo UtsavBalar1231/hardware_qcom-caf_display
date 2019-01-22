@@ -208,6 +208,10 @@ class HWCSession : hwc2_device_t, HWCUEventListener, IDisplayConfig, public qCli
                                         uint32_t *outNumCapabilities, uint32_t *outCapabilities);
   static int32_t GetDisplayBrightnessSupport(hwc2_device_t *device, hwc2_display_t display,
                                              bool *outSupport);
+  static int32_t GetDisplayCapabilities(hwc2_device_t* device, hwc2_display_t display,
+                                        uint32_t* outNumCapabilities, uint32_t* outCapabilities);
+  static int32_t GetDisplayBrightnessSupport(hwc2_device_t *device, hwc2_display_t display,
+                                             bool *out_support);
   static int32_t SetDisplayBrightness(hwc2_device_t *device, hwc2_display_t display,
                                       float brightness);
 
@@ -427,6 +431,7 @@ class HWCSession : hwc2_device_t, HWCUEventListener, IDisplayConfig, public qCli
   bool async_powermode_ = false;
   bool power_state_transition_[HWCCallbacks::kNumDisplays] = {};  // +1 to account for primary.
   std::bitset<HWCCallbacks::kNumDisplays> display_ready_;
+  int brightness_fd_ = -1;
 };
 
 }  // namespace sdm
