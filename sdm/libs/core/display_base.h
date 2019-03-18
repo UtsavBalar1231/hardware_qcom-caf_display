@@ -153,6 +153,9 @@ class DisplayBase : public DisplayInterface {
   virtual DisplayError GetRefreshRate(uint32_t *refresh_rate) { return kErrorNotSupported; }
   virtual DisplayError ReconfigureDisplay();
 
+  virtual DisplayError colorSamplingOn();
+  virtual DisplayError colorSamplingOff();
+
  protected:
   const char *kBt2020Pq = "bt2020_pq";
   const char *kBt2020Hlg = "bt2020_hlg";
