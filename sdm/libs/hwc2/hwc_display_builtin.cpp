@@ -1050,4 +1050,9 @@ HWC2::Error HWCDisplayBuiltIn::GetPanelBrightness(float *brightness) {
 
   return HWC2::Error::None;
 }
+
+DisplayError HWCDisplayBuiltIn::HistogramEvent(int fd, uint32_t blob_id) {
+  histogram.notify_histogram_event(fd, blob_id);
+  return kErrorNone;
+}
 }  // namespace sdm

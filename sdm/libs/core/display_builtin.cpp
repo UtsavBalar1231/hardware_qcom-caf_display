@@ -532,6 +532,10 @@ DisplayError DisplayBuiltIn::GetPanelBrightness(float *brightness) {
   return kErrorNone;
 }
 
+void DisplayBuiltIn::Histogram(int histogram_fd, uint32_t blob_id) {
+    event_handler_->HistogramEvent(histogram_fd, blob_id);
+}
+
 DisplayError DisplayBuiltIn::ControlPartialUpdate(bool enable, uint32_t *pending) {
   lock_guard<recursive_mutex> obj(recursive_mutex_);
   if (!pending) {
