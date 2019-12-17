@@ -22,6 +22,7 @@
 
 #include <vendor/display/config/1.11/IDisplayConfig.h>
 
+#include <android/hardware/graphics/composer/2.4/IComposerClient.h>
 #include <core/core_interface.h>
 #include <utils/locker.h>
 #include <qd_utils.h>
@@ -52,6 +53,7 @@ using ::android::hardware::Return;
 using ::android::hardware::hidl_string;
 using android::hardware::hidl_handle;
 using ::android::hardware::hidl_vec;
+using ::android::hardware::graphics::composer::V2_4::IComposerClient;
 
 int32_t GetDataspaceFromColorMode(ColorMode mode);
 
