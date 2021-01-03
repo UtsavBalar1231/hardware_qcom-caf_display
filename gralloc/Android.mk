@@ -53,6 +53,9 @@ ifeq ($(TARGET_USES_UNALIGNED_YCRCB),true)
     LOCAL_CFLAGS              += -DUSE_UNALIGNED_YCRCB
 endif
 
+ifeq ($(TARGET_NEEDS_RAW1X_ALIGNMENT_TORTURE),true)
+LOCAL_CFLAGS                  += -DRAW1X_ALIGNMENT_TORTURE
+endif
 LOCAL_ADDITIONAL_DEPENDENCIES := $(common_deps)
 LOCAL_SRC_FILES               := gr_utils.cpp gr_adreno_info.cpp
 include $(BUILD_SHARED_LIBRARY)
